@@ -14,56 +14,56 @@ public class SendMail {
 
     public static void main(String[] args) {
 
-        // Recipient's email ID needs to be mentioned.
-        String to = "Maria-9797@mail.ru";
+        // почта получателя
+        String to = "fromaddress@gmail.com";
 
-        // Sender's email ID needs to be mentioned
-        String from = "asterixex@gmail.com";
+        // почта отправителя
+        String from = "toaddress@gmail.com";
 
-        // Assuming you are sending email from through gmails smtp
+        // отправляем письмо через gmails smtp
         String host = "smtp.gmail.com";
 
-        // Get system properties
+        // получаем системные свойства
         Properties properties = System.getProperties();
 
-        // Setup mail server
+        // настройка почтового серврера
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", "465");
         properties.put("mail.smtp.ssl.enable", "true");
         properties.put("mail.smtp.auth", "true");
 
-        // Get the Session object.// and pass username and password
+        // получаем объект Session и передаем имя пользователя и пароль
         Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
 
             protected PasswordAuthentication getPasswordAuthentication() {
-
-                return new PasswordAuthentication("asterixex@gmail.com", "vlowkcqslrdkyyog");
+                    //login gmail -> manage your google account -> security -> Signing in to Google -> App passwords (create new app password)
+                return new PasswordAuthentication("toaddress@gmail.com", "AppPassword");
 
             }
 
         });
 
-        // Used to debug SMTP issues
+
         session.setDebug(true);
 
         try {
-            // Create a default MimeMessage object.
+
             MimeMessage message = new MimeMessage(session);
 
-            // Set From: header field of the header.
+
             message.setFrom(new InternetAddress(from));
 
-            // Set To: header field of the header.
+
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
-            // Set Subject: header field
+
             message.setSubject("This is the Subject Line!");
 
-            // Now set the actual message
+
             message.setText("This is actual message");
 
             System.out.println("sending...");
-            // Send message
+
             Transport.send(message);
             System.out.println("Sent message successfully....");
         } catch (MessagingException mex) {
